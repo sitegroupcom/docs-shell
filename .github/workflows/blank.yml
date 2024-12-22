@@ -1,0 +1,31 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out the repository so the job can access it
+      - uses: actions/checkout@v4
+
+      # Install necessary dependencies if required
+      - name: Install pip and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install gitingest
+
+      # Make sure the start.sh script is executable
+      - name: Make start.sh executable
+        run: chmod +x ./start.sh
+
+      # Run the start.sh script
+      - name: Execute start.sh
+        run: ./start.sh
